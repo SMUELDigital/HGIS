@@ -1,0 +1,9 @@
+{
+  "enable": true,
+  "path": "$HOUDINI_USER_PREF_DIR/houdini20.5/houdinigis",
+  "env": [
+    {
+      "HOUDINI_OTLSCAN_PATH": "$HOUDINI_USER_PREF_DIR/houdini20.5/houdinigis/otls;&"
+    }
+  ]
+}
