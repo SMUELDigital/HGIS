@@ -35,6 +35,7 @@ try:
         ptg.append(StringParmTemplate("target_epsg", "Target CRS (EPSG)", 1, default_value=("EPSG:3857",)))
         ptg.append(StringParmTemplate("attr_prefix", "Attribute Prefix", 1, default_value=("shp_",)))
         ptg.append(ToggleParmTemplate("import_z", "Import Z/M", default_value=False))
+        ptg.append(ToggleParmTemplate("swap_yz", "Swap Y/Z", default_value=False))
         ptg.append(StringParmTemplate("group_by", "Group by DBF Field", 1, default_value=("")))
         pysop.setParmTemplateGroup(ptg)
 

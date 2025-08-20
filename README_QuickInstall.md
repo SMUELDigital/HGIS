@@ -24,6 +24,7 @@ Install:
 ## Use
 - Dive into a **Geometry** node, press **Tab**, select **HoudiniGIS → HGIS Shapefile Import**.
 - Pick your `.shp` file. Optionally set `Target CRS (EPSG)` (needs a `.prj` next to the `.shp`).
+- Enable `Swap Y/Z` if your shapefile uses a different up-axis.
 
 ## Notes
 - For polygon holes, subtract group `hgis_hole` from `hgis_exterior` with a **Boolean** SOP.

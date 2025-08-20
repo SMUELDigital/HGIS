@@ -32,6 +32,7 @@ def import_shp(geo, parms):
     target_epsg = (parms.get("target_epsg","") or "").strip()
     attr_prefix = (parms.get("attr_prefix","") or "shp_")
     import_z = bool(parms.get("import_z", False))
+    swap_yz = bool(parms.get("swap_yz", False))
     group_field = (parms.get("group_by","") or "").strip()
 
     if not shp_path or not os.path.isfile(shp_path):
@@ -47,6 +48,9 @@ def import_shp(geo, parms):
         if transformer:
             x, y = transformer.transform(x, y)
         return x, y
+
+    def make_pos(x, y, z):
+        return hou.Vector3(x, z, y) if swap_yz else hou.Vector3(x, y, z)
 
     r = shapefile.Reader(shp_path)
     fields = r.fields[1:]  # skip deletion flag
@@ -95,7 +99,7 @@ def import_shp(geo, parms):
                 z = c[2] if (import_z and len(c)>=3) else 0.0
                 x,y = tx(x,y)
                 p = geo.createPoint()
-                p.setPosition(hou.Vector3(x,y,z))
+                p.setPosition(make_pos(x,y,z))
                 # push attributes to point for POINT
                 for k,ft in field_meta.items():
                     hname = attr_prefix + k.lower()
@@ -120,7 +124,7 @@ def import_shp(geo, parms):
                 for c in seg:
                     x,y = tx(c[0], c[1])
                     z = c[2] if (import_z and len(c)>=3) else 0.0
-                    pt = geo.createPoint(); pt.setPosition(hou.Vector3(x,y,z))
+                    pt = geo.createPoint(); pt.setPosition(make_pos(x,y,z))
                     poly.addVertex(pt)
                 set_attrs(poly, rec_map)
 
@@ -138,7 +142,7 @@ def import_shp(geo, parms):
                 for c in ring:
                     x,y = tx(c[0], c[1])
                     z = c[2] if (import_z and len(c)>=3) else 0.0
-                    pt = geo.createPoint(); pt.setPosition(hou.Vector3(x,y,z))
+                    pt = geo.createPoint(); pt.setPosition(make_pos(x,y,z))
                     poly.addVertex(pt)
                 set_attrs(poly, rec_map)
                 if is_outer:
