@@ -1,2 +1,0 @@
-# HGIS
-HGIS - Houdini GIS
